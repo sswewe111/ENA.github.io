@@ -28,7 +28,17 @@ pnpm-debug.log*
 
 # local personal content and overrides
 /src/config/
+!/src/config/
+!/src/config/i18n.ts
+!/src/config/remarkDisplayMath.mjs
+!/src/config/remarkWikiLinks.mjs
+!/src/config/site.ts
 /src/content/
+!/src/content/
+!/src/content/blog/
+!/src/content/blog/**
+!/src/content/projects/
+!/src/content/projects/**
 /src/contents/
 /public/
 /config/

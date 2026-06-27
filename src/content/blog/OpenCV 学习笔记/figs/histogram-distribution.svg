@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img" aria-labelledby="title desc">
+  <title id="title">灰度直方图分布示意图</title>
+  <desc id="desc">不同灰度分布对应偏暗、偏亮和高对比度图像</desc>
+  <rect width="900" height="320" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="55" y="42" font-size="22" fill="#111827">灰度直方图怎么看</text>
+    <g transform="translate(60,78)">
+      <rect width="220" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <line x1="24" y1="122" x2="196" y2="122" stroke="#64748b"/>
+      <line x1="24" y1="122" x2="24" y2="25" stroke="#64748b"/>
+      <path d="M28 116 C45 40, 68 38, 86 112 C130 120, 165 122, 192 121" fill="none" stroke="#111827" stroke-width="4"/>
+      <text x="54" y="180" font-size="16" fill="#475569">集中在左侧：偏暗</text>
+    </g>
+    <g transform="translate(340,78)">
+      <rect width="220" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <line x1="24" y1="122" x2="196" y2="122" stroke="#64748b"/>
+      <line x1="24" y1="122" x2="24" y2="25" stroke="#64748b"/>
+      <path d="M28 121 C70 122, 108 119, 132 111 C150 38, 178 42, 192 116" fill="none" stroke="#111827" stroke-width="4"/>
+      <text x="54" y="180" font-size="16" fill="#475569">集中在右侧：偏亮</text>
+    </g>
+    <g transform="translate(620,78)">
+      <rect width="220" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <line x1="24" y1="122" x2="196" y2="122" stroke="#64748b"/>
+      <line x1="24" y1="122" x2="24" y2="25" stroke="#64748b"/>
+      <path d="M28 112 C55 72, 80 118, 105 65 C130 115, 158 55, 192 105" fill="none" stroke="#111827" stroke-width="4"/>
+      <text x="44" y="180" font-size="16" fill="#475569">分布较宽：对比度高</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="330" viewBox="0 0 900 330" role="img" aria-labelledby="title desc">
+  <title id="title">非极大值抑制示意图</title>
+  <desc id="desc">沿梯度方向比较当前像素和两侧像素，只保留局部最大值</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="330" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="60" y="44" font-size="22" fill="#111827">非极大值抑制</text>
+    <text x="60" y="72" font-size="16" fill="#475569">沿梯度方向比较，只保留最大响应</text>
+    <g transform="translate(80,105)" font-family="Consolas, Menlo, monospace" font-size="22" text-anchor="middle">
+      <rect width="210" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <g stroke="#cbd5e1">
+        <rect x="0" y="0" width="70" height="50" fill="#e2e8f0"/>
+        <rect x="70" y="0" width="70" height="50" fill="#e2e8f0"/>
+        <rect x="140" y="0" width="70" height="50" fill="#e2e8f0"/>
+        <rect x="0" y="50" width="70" height="50" fill="#dbeafe"/>
+        <rect x="70" y="50" width="70" height="50" fill="#fee2e2"/>
+        <rect x="140" y="50" width="70" height="50" fill="#dbeafe"/>
+        <rect x="0" y="100" width="70" height="50" fill="#e2e8f0"/>
+        <rect x="70" y="100" width="70" height="50" fill="#e2e8f0"/>
+        <rect x="140" y="100" width="70" height="50" fill="#e2e8f0"/>
+      </g>
+      <text x="35" y="83" fill="#475569">80</text>
+      <text x="105" y="83" fill="#dc2626" font-weight="700">120</text>
+      <text x="175" y="83" fill="#475569">70</text>
+    </g>
+    <line x1="116" y1="180" x2="252" y2="180" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="118" y="286" font-size="15" fill="#475569">梯度方向：左 -> 右</text>
+    <line x1="335" y1="180" x2="455" y2="180" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(500,110)">
+      <rect width="290" height="140" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <text x="26" y="42" font-size="20" fill="#111827">比较结果</text>
+      <text x="26" y="82" font-size="18" fill="#475569">120 大于 80 和 70</text>
+      <text x="26" y="116" font-size="22" fill="#dc2626" font-weight="700">保留当前像素</text>
+    </g>
+  </g>
+</svg>

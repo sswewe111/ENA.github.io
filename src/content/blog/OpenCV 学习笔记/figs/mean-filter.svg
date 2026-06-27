@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+  <title id="title">均值滤波计算示意图</title>
+  <desc id="desc">3 x 3 邻域求平均值并替换中心像素</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="300" fill="#ffffff"/>
+  <text x="60" y="42" font-size="22" font-family="Microsoft YaHei, Arial" fill="#111827">3 x 3 邻域</text>
+  <g transform="translate(60,70)" font-family="Consolas, Menlo, monospace" font-size="22" text-anchor="middle">
+    <rect x="0" y="0" width="210" height="210" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <g fill="#e2e8f0" stroke="#cbd5e1">
+      <rect x="0" y="0" width="70" height="70"/>
+      <rect x="70" y="0" width="70" height="70"/>
+      <rect x="140" y="0" width="70" height="70"/>
+      <rect x="0" y="70" width="70" height="70"/>
+      <rect x="70" y="70" width="70" height="70" fill="#fee2e2"/>
+      <rect x="140" y="70" width="70" height="70"/>
+      <rect x="0" y="140" width="70" height="70"/>
+      <rect x="70" y="140" width="70" height="70"/>
+      <rect x="140" y="140" width="70" height="70"/>
+    </g>
+    <g fill="#111827">
+      <text x="35" y="43">100</text>
+      <text x="105" y="43">102</text>
+      <text x="175" y="43">98</text>
+      <text x="35" y="113">101</text>
+      <text x="105" y="113" fill="#dc2626" font-weight="700">150</text>
+      <text x="175" y="113">99</text>
+      <text x="35" y="183">97</text>
+      <text x="105" y="183">100</text>
+      <text x="175" y="183">103</text>
+    </g>
+  </g>
+  <line x1="310" y1="175" x2="430" y2="175" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="315" y="145" font-size="18" font-family="Microsoft YaHei, Arial" fill="#475569">求平均值</text>
+  <g transform="translate(470,80)" font-family="Microsoft YaHei, Arial">
+    <rect width="350" height="180" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="28" y="45" font-size="22" fill="#111827">新中心像素</text>
+    <text x="28" y="95" font-size="28" fill="#dc2626" font-weight="700">150 -> 106</text>
+    <text x="28" y="140" font-size="18" fill="#475569">突出噪声点被周围像素平均掉</text>
+  </g>
+</svg>

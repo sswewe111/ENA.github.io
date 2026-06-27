@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img" aria-labelledby="title desc">
+  <title id="title">轮廓层级和近似方法示意图</title>
+  <desc id="desc">展示外轮廓、内部轮廓以及轮廓点压缩效果</desc>
+  <rect width="900" height="320" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="60" y="42" font-size="22" fill="#111827">轮廓层级</text>
+    <rect x="65" y="72" width="220" height="170" rx="8" fill="#111827"/>
+    <rect x="105" y="105" width="140" height="105" rx="6" fill="#f8fafc"/>
+    <circle cx="175" cy="158" r="28" fill="#111827"/>
+    <rect x="65" y="72" width="220" height="170" rx="8" fill="none" stroke="#dc2626" stroke-width="5"/>
+    <circle cx="175" cy="158" r="28" fill="none" stroke="#2563eb" stroke-width="5"/>
+    <text x="82" y="270" font-size="16" fill="#475569">红色：外轮廓，蓝色：内部轮廓</text>
+    <text x="500" y="42" font-size="22" fill="#111827">轮廓近似</text>
+    <g transform="translate(475,78)">
+      <rect width="300" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <polyline points="35,115 55,94 78,79 112,62 145,55 182,66 220,88 255,118" fill="none" stroke="#94a3b8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="35,115 112,62 145,55 220,88 255,118" fill="none" stroke="#dc2626" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="35" cy="115" r="5" fill="#dc2626"/>
+      <circle cx="112" cy="62" r="5" fill="#dc2626"/>
+      <circle cx="145" cy="55" r="5" fill="#dc2626"/>
+      <circle cx="220" cy="88" r="5" fill="#dc2626"/>
+      <circle cx="255" cy="118" r="5" fill="#dc2626"/>
+    </g>
+    <text x="495" y="270" font-size="16" fill="#475569">灰色：原始点多，红色：压缩后保留关键点</text>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="330" viewBox="0 0 900 330" role="img" aria-labelledby="title desc">
+  <title id="title">开运算与闭运算示意图</title>
+  <desc id="desc">开运算去除小白点，闭运算填补小黑洞</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="330" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="80" y="42" font-size="22" fill="#111827">开运算：去小白点</text>
+    <rect x="70" y="65" width="150" height="110" rx="8" fill="#111827"/>
+    <rect x="110" y="92" width="70" height="56" fill="#f8fafc"/>
+    <circle cx="196" cy="83" r="7" fill="#f8fafc"/>
+    <line x1="245" y1="120" x2="335" y2="120" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="365" y="65" width="150" height="110" rx="8" fill="#111827"/>
+    <rect x="405" y="92" width="70" height="56" fill="#f8fafc"/>
+    <text x="378" y="202" font-size="16" fill="#475569">小白点被去除</text>
+    <text x="80" y="247" font-size="22" fill="#111827">闭运算：填小黑洞</text>
+    <rect x="70" y="270" width="150" height="45" rx="8" fill="#111827"/>
+    <rect x="110" y="281" width="70" height="24" fill="#f8fafc"/>
+    <circle cx="146" cy="293" r="7" fill="#111827"/>
+    <line x1="245" y1="292" x2="335" y2="292" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="365" y="270" width="150" height="45" rx="8" fill="#111827"/>
+    <rect x="110" y="281" width="70" height="24" fill="#f8fafc" transform="translate(295 0)"/>
+    <text x="378" y="247" font-size="16" fill="#475569">小黑洞被填补</text>
+    <g transform="translate(620,70)">
+      <rect width="220" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <text x="24" y="45" font-size="20" fill="#111827">开运算</text>
+      <text x="24" y="78" font-size="16" fill="#475569">腐蚀 -> 膨胀</text>
+      <text x="24" y="125" font-size="20" fill="#111827">闭运算</text>
+      <text x="24" y="158" font-size="16" fill="#475569">膨胀 -> 腐蚀</text>
+    </g>
+  </g>
+</svg>

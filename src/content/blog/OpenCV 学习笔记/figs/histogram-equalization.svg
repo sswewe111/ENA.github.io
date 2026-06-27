@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img" aria-labelledby="title desc">
+  <title id="title">直方图均衡化示意图</title>
+  <desc id="desc">均衡化将集中的灰度分布拉开，提高图像对比度</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="320" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="60" y="42" font-size="22" fill="#111827">直方图均衡化</text>
+    <g transform="translate(70,80)">
+      <rect width="250" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <line x1="30" y1="120" x2="220" y2="120" stroke="#64748b"/>
+      <line x1="30" y1="120" x2="30" y2="30" stroke="#64748b"/>
+      <path d="M35 118 C80 116, 102 48, 130 42 C155 44, 170 115, 215 118" fill="none" stroke="#dc2626" stroke-width="5"/>
+      <text x="48" y="185" font-size="16" fill="#475569">均衡化前：灰度集中</text>
+    </g>
+    <line x1="350" y1="155" x2="455" y2="155" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(490,80)">
+      <rect width="250" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <line x1="30" y1="120" x2="220" y2="120" stroke="#64748b"/>
+      <line x1="30" y1="120" x2="30" y2="30" stroke="#64748b"/>
+      <path d="M35 104 C55 78, 82 115, 108 65 C135 110, 162 55, 190 88 C205 102, 215 95, 222 110" fill="none" stroke="#2563eb" stroke-width="5"/>
+      <text x="48" y="185" font-size="16" fill="#475569">均衡化后：分布拉开</text>
+    </g>
+    <text x="220" y="285" font-size="17" fill="#475569">灰度范围变宽后，暗亮差异更明显，图像对比度提升。</text>
+  </g>
+</svg>

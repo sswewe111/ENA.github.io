@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="270" viewBox="0 0 980 270" role="img" aria-labelledby="title desc">
+  <title id="title">Canny 边缘检测流程图</title>
+  <desc id="desc">Canny 从输入灰度图经过高斯滤波、梯度计算、非极大值抑制、双阈值和边缘连接得到边缘图</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="980" height="270" fill="#ffffff"/>
+  <g font-family="Microsoft YaHei, Arial">
+    <text x="42" y="42" font-size="22" fill="#111827">Canny 完整流程</text>
+    <g transform="translate(35,82)">
+      <rect width="130" height="88" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+      <text x="65" y="36" font-size="18" fill="#111827" text-anchor="middle">输入灰度图</text>
+      <text x="65" y="64" font-size="14" fill="#64748b" text-anchor="middle">image</text>
+    </g>
+    <line x1="178" y1="126" x2="218" y2="126" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(230,82)">
+      <rect width="130" height="88" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+      <text x="65" y="34" font-size="18" fill="#111827" text-anchor="middle">高斯滤波</text>
+      <text x="65" y="64" font-size="14" fill="#64748b" text-anchor="middle">去噪</text>
+    </g>
+    <line x1="373" y1="126" x2="413" y2="126" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(425,82)">
+      <rect width="130" height="88" rx="8" fill="#f0fdf4" stroke="#bbf7d0"/>
+      <text x="65" y="34" font-size="18" fill="#111827" text-anchor="middle">梯度计算</text>
+      <text x="65" y="64" font-size="14" fill="#64748b" text-anchor="middle">强度 + 方向</text>
+    </g>
+    <line x1="568" y1="126" x2="608" y2="126" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(620,82)">
+      <rect width="130" height="88" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+      <text x="65" y="30" font-size="17" fill="#111827" text-anchor="middle">非极大值</text>
+      <text x="65" y="55" font-size="17" fill="#111827" text-anchor="middle">抑制</text>
+      <text x="65" y="76" font-size="14" fill="#64748b" text-anchor="middle">边缘变细</text>
+    </g>
+    <line x1="763" y1="126" x2="803" y2="126" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(815,82)">
+      <rect width="130" height="88" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+      <text x="65" y="32" font-size="17" fill="#111827" text-anchor="middle">双阈值</text>
+      <text x="65" y="56" font-size="17" fill="#111827" text-anchor="middle">边缘连接</text>
+      <text x="65" y="77" font-size="14" fill="#64748b" text-anchor="middle">输出边缘</text>
+    </g>
+    <text x="230" y="222" font-size="16" fill="#475569">关键：先去噪，再找梯度，最后用方向和阈值筛选真实边缘。</text>
+  </g>
+</svg>

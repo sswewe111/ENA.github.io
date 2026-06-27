@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="310" viewBox="0 0 900 310" role="img" aria-labelledby="title desc">
+  <title id="title">平滑滤波对比示意图</title>
+  <desc id="desc">不同平滑滤波方式对噪声和细节的影响</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="310" fill="#ffffff"/>
+  <text x="44" y="42" font-size="22" font-family="Microsoft YaHei, Arial" fill="#111827">含噪声图像</text>
+  <rect x="45" y="68" width="170" height="170" rx="8" fill="#e2e8f0" stroke="#cbd5e1"/>
+  <path d="M65 190 C95 115, 135 135, 190 88" fill="none" stroke="#0f172a" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="86" cy="96" r="6" fill="#111827"/>
+  <circle cx="150" cy="185" r="7" fill="#ffffff"/>
+  <circle cx="180" cy="145" r="5" fill="#111827"/>
+  <circle cx="110" cy="158" r="5" fill="#ffffff"/>
+  <line x1="235" y1="153" x2="307" y2="153" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(335,68)">
+    <text x="0" y="-26" font-size="20" font-family="Microsoft YaHei, Arial" fill="#111827">均值/高斯滤波</text>
+    <rect width="170" height="170" rx="8" fill="#e2e8f0" stroke="#cbd5e1"/>
+    <path d="M20 124 C50 63, 94 79, 145 28" fill="none" stroke="#475569" stroke-width="13" stroke-linecap="round" opacity="0.65"/>
+    <circle cx="50" cy="40" r="4" fill="#64748b" opacity="0.45"/>
+    <circle cx="122" cy="125" r="4" fill="#ffffff" opacity="0.55"/>
+    <text x="7" y="205" font-size="15" font-family="Microsoft YaHei, Arial" fill="#475569">噪声减弱，边缘也变软</text>
+  </g>
+  <line x1="525" y1="153" x2="597" y2="153" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(625,68)">
+    <text x="0" y="-26" font-size="20" font-family="Microsoft YaHei, Arial" fill="#111827">中值滤波</text>
+    <rect width="170" height="170" rx="8" fill="#e2e8f0" stroke="#cbd5e1"/>
+    <path d="M20 124 C50 63, 94 79, 145 28" fill="none" stroke="#0f172a" stroke-width="10" stroke-linecap="round"/>
+    <text x="12" y="205" font-size="15" font-family="Microsoft YaHei, Arial" fill="#475569">适合去除椒盐噪声</text>
+  </g>
+</svg>

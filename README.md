@@ -42,39 +42,6 @@ public/                 头像、favicon 等静态资源
 .github/workflows/      GitHub Pages 部署配置
 ```
 
-## 本地开发
-
-本项目需要 Node.js `>=22.12.0`。
-
-```sh
-npm install
-npm run dev
-```
-
-构建静态站点：
-
-```sh
-npm run build
-```
-
-本地预览构建结果：
-
-```sh
-npm run preview
-```
-
-## 部署
-
-博客通过 GitHub Actions 自动部署到 GitHub Pages。推送到 `main` 分支后，工作流会自动构建并发布。
-
-当前 GitHub Pages 地址为：
-
-```text
-https://sswewe111.github.io/ENA.github.io/
-```
-
-因为这是 GitHub Pages 项目页，站点资源路径需要带上仓库名前缀 `/ENA.github.io/`。相关配置在 [astro.config.mjs](./astro.config.mjs) 中。
-
 ## License
 
 本项目基于原 Atlas 项目改造，遵循仓库中的 [GNU General Public License v3.0](./LICENSE)。

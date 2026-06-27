@@ -6,6 +6,12 @@ const blogDir = resolve('src/content/blog');
 const imageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 const assetExtensions = new Set([...imageExtensions, '.pdf']);
 
+function withBase(path) {
+	const basePath = (process.env.ATLAS_BASE ?? '').replace(/\/$/, '');
+	if (!basePath || !path.startsWith('/')) return path;
+	return path === '/' ? `${basePath}/` : `${basePath}${path}`;
+}
+
 function slugifyContentPath(value) {
 	return value
 		.replace(/\\/g, '/')
@@ -132,7 +138,7 @@ function createLinkNode(target, label, resolveWikiTarget, resolveAssetTarget) {
 
 		return {
 			type: 'link',
-			url: `/blog-assets/${encodePath(assetPath)}`,
+			url: withBase(`/blog-assets/${encodePath(assetPath)}`),
 			title: null,
 			children: [createTextNode(label.trim() || cleanTarget)],
 		};
@@ -143,7 +149,7 @@ function createLinkNode(target, label, resolveWikiTarget, resolveAssetTarget) {
 
 	return {
 		type: 'link',
-		url: `/blog/${encodeURI(path)}${hash ? `#${encodeURIComponent(hash)}` : ''}`,
+		url: withBase(`/blog/${encodeURI(path)}${hash ? `#${encodeURIComponent(hash)}` : ''}`),
 		title: null,
 		children: [createTextNode(label.trim() || slug)],
 	};
@@ -154,7 +160,7 @@ function createImageNode(target, label, resolveAssetTarget) {
 
 	return {
 		type: 'image',
-		url: `/blog-assets/${encodePath(assetPath)}`,
+		url: withBase(`/blog-assets/${encodePath(assetPath)}`),
 		title: null,
 		alt: label?.trim() || target.trim(),
 	};

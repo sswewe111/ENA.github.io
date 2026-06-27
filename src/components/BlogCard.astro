@@ -1,5 +1,5 @@
 ---
-import { getLocaleFromUrl, localizePath } from '../config/site';
+import { getLocaleFromUrl, localizePath, withBase } from '../config/site';
 import { cleanContentSlug } from '../config/i18n';
 import { getEntryDescription, getEntryTitle } from '../utils/content';
 
@@ -30,6 +30,7 @@ const date = post.data.pubDate.toLocaleDateString(dateLocale, {
 	month: 'long',
 	day: 'numeric',
 });
+const coverSrc = post.data.cover ? withBase(post.data.cover) : undefined;
 ---
 
 <a
@@ -40,9 +41,9 @@ const date = post.data.pubDate.toLocaleDateString(dateLocale, {
 		<p class="text-sm text-zinc-500">{date}</p>
 	</div>
 	<div>
-		{post.data.cover && (
+		{coverSrc && (
 			<img
-				src={post.data.cover}
+				src={coverSrc}
 				alt=""
 				class="mb-5 aspect-[16/7] w-full rounded-lg border border-white/10 bg-zinc-900 object-cover opacity-90 transition group-hover:border-white/25 group-hover:opacity-100"
 				loading="lazy"

@@ -1,6 +1,6 @@
 ---
 import Layout from './Layout.astro';
-import { getLocaleFromUrl, getSiteConfig, localizePath } from '../config/site';
+import { getLocaleFromUrl, getSiteConfig, localizePath, withBase } from '../config/site';
 import { getBlogImageAssets } from '../utils/blog-assets';
 
 interface Props {
@@ -17,6 +17,7 @@ const { title, description, date, tags = [], cover, backlinks = [], heroTransiti
 const locale = getLocaleFromUrl(Astro.url);
 const siteConfig = getSiteConfig(locale);
 const imageAssets = getBlogImageAssets();
+const coverSrc = cover ? withBase(cover) : undefined;
 const formattedDate = date?.toLocaleDateString('zh-CN', {
 	year: 'numeric',
 	month: 'long',
@@ -42,9 +43,9 @@ const formattedDate = date?.toLocaleDateString('zh-CN', {
 					))}
 				</div>
 			)}
-			{cover && (
+			{coverSrc && (
 				<img
-					src={cover}
+					src={coverSrc}
 					alt=""
 					class="mt-8 aspect-[16/8] w-full rounded-lg border border-white/10 bg-zinc-900 object-cover"
 					loading="eager"

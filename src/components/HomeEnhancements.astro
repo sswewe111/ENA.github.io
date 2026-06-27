@@ -10,10 +10,12 @@ interface Props {
 
 const { locale, today } = Astro.props;
 const { dateLocale, greetings, timeZone } = today;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<script define:vars={{ dateLocale, greetings, locale, timeZone }} data-astro-rerun>
+<script define:vars={{ baseUrl, dateLocale, greetings, locale, timeZone }} data-astro-rerun>
 	const homeEnhancementsState = window;
+	const apiUrl = (path) => `${baseUrl}${path.replace(/^\//, '')}`;
 	const steamLabels = {
 		zh: {
 			playing: 'Steam：正在玩 {game}',
@@ -146,7 +148,7 @@ const { dateLocale, greetings, timeZone } = today;
 			if (!steamStatus) return;
 
 			try {
-				const response = await fetch('/api/steam-status', { cache: 'no-store' });
+				const response = await fetch(apiUrl('/api/steam-status'), { cache: 'no-store' });
 				if (!response.ok) throw new Error('Steam status request failed.');
 
 				const status = await response.json();
@@ -186,7 +188,7 @@ const { dateLocale, greetings, timeZone } = today;
 			if (!template) return;
 
 			try {
-				const response = await fetch('/api/visitor-count', { cache: 'no-store' });
+				const response = await fetch(apiUrl('/api/visitor-count'), { cache: 'no-store' });
 				if (!response.ok) throw new Error('Visitor count request failed.');
 
 				const data = await response.json();

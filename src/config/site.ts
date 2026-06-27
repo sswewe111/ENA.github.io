@@ -15,6 +15,29 @@ export const locales = {
 
 export type Locale = keyof typeof locales;
 
+const rawBasePath = import.meta.env.BASE_URL ?? "/";
+export const basePath = rawBasePath.endsWith("/") ? rawBasePath.slice(0, -1) : rawBasePath;
+
+function isExternalPath(path: string): boolean {
+	return /^(https?:)?\/\//.test(path) || /^(mailto|tel):/.test(path) || path.startsWith("#");
+}
+
+export function stripBasePath(path: string): string {
+	if (!basePath) return path;
+	if (path === basePath) return "/";
+	if (path.startsWith(`${basePath}/`)) return path.slice(basePath.length) || "/";
+	return path;
+}
+
+export function withBase(path: string): string {
+	if (!path || isExternalPath(path) || !path.startsWith("/")) return path;
+
+	const normalized = stripBasePath(path);
+	if (!basePath) return normalized;
+	if (normalized === "/") return `${basePath}/`;
+	return `${basePath}${normalized}`;
+}
+
 const shared = {
 	name: "Ena",
 	email: "2949224434@qq.com",
@@ -531,16 +554,18 @@ export function isLocale(locale: string | undefined): locale is Locale {
 }
 
 export function getLocaleFromUrl(url: URL): Locale {
-	const firstSegment = url.pathname.split("/").filter(Boolean)[0];
+	const firstSegment = stripBasePath(url.pathname).split("/").filter(Boolean)[0];
 	return isLocale(firstSegment) ? firstSegment : defaultLocale;
 }
 
 export function localizePath(locale: Locale, path: string): string {
-	if (path.startsWith("http") || path.startsWith("mailto:")) return path;
-	if (locale === defaultLocale) return path;
-	if (path === "/") return `/${locale}/`;
-	if (path.startsWith(`/${locale}/`)) return path;
-	return `/${locale}${path}`;
+	if (isExternalPath(path)) return path;
+
+	const normalized = stripBasePath(path);
+	if (locale === defaultLocale) return withBase(normalized);
+	if (normalized === "/") return withBase(`/${locale}/`);
+	if (normalized.startsWith(`/${locale}/`)) return withBase(normalized);
+	return withBase(`/${locale}${normalized.startsWith("/") ? normalized : `/${normalized}`}`);
 }
 
 function localizeModuleLinks(module: { type: string; props?: Record<string, unknown> }, locale: Locale) {
@@ -563,6 +588,11 @@ function localizeModuleLinks(module: { type: string; props?: Record<string, unkn
 function localizeSiteLinks<T extends typeof siteConfigs[Locale]>(config: T, locale: Locale): T {
 	return {
 		...config,
+		avatar: withBase(config.avatar),
+		background: {
+			...config.background,
+			image: withBase(config.background.image),
+		},
 		nav: config.nav.map((item) => ({ ...item, href: localizePath(locale, item.href) })),
 		quickLinks: config.quickLinks.map((item) => ({ ...item, href: localizePath(locale, item.href) })),
 		home: {

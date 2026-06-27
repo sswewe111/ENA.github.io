@@ -1,5 +1,6 @@
 import { readdirSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
+import { withBase } from '../config/site';
 
 const blogDir = resolve('src/content/blog');
 const imageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
@@ -38,7 +39,7 @@ export function getBlogImageAssets() {
 		return [
 			{
 				name,
-				url: `/blog-assets/${encodePath(path)}`,
+				url: withBase(`/blog-assets/${encodePath(path)}`),
 			},
 		];
 	});

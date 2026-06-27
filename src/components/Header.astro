@@ -1,5 +1,5 @@
 ---
-import { getLocaleFromUrl, getSiteConfig } from '../config/site';
+import { getLocaleFromUrl, getSiteConfig, localizePath } from '../config/site';
 
 const locale = getLocaleFromUrl(Astro.url);
 const siteConfig = getSiteConfig(locale);
@@ -8,7 +8,7 @@ const headerCtaHref = 'https://github.com/sswewe111';
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl" transition:name="site-header" transition:animate="none">
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-		<a href="/" class="text-sm font-semibold uppercase tracking-[0.28em] text-white">
+		<a href={localizePath(locale, '/')} class="text-sm font-semibold uppercase tracking-[0.28em] text-white">
 			{siteConfig.name}
 		</a>
 		<div class="hidden items-center gap-1 md:flex">

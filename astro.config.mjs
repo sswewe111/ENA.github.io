@@ -8,11 +8,13 @@ import remarkWikiLinks from './src/config/remarkWikiLinks.mjs';
 
 const dynamicMode = process.env.ATLAS_DYNAMIC === 'true';
 const adapter = dynamicMode ? (await import('@astrojs/node')).default({ mode: 'standalone' }) : undefined;
+const base = '/ENA.github.io';
+process.env.ATLAS_BASE = base;
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://sswewe111.github.io',
-	base: '/ENA.github.io',
+	base,
 	output: dynamicMode ? 'server' : 'static',
 	adapter,
 	markdown: {

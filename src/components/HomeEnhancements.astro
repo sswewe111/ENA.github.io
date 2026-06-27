@@ -10,7 +10,7 @@ interface Props {
 
 const { locale, today } = Astro.props;
 const { dateLocale, greetings, timeZone } = today;
-const baseUrl = import.meta.env.BASE_URL;
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
 <script define:vars={{ baseUrl, dateLocale, greetings, locale, timeZone }} data-astro-rerun>

@@ -1,0 +1,249 @@
+---
+import BlogCard from './BlogCard.astro';
+import { getLocaleFromUrl } from '../config/site';
+import { getEntryDescription, getEntryTitle } from '../utils/content';
+
+interface Post {
+	id: string;
+	body?: string;
+	data: {
+		title: string;
+		description: string;
+		pubDate: Date;
+		tags: string[];
+		series?: string;
+		cover?: string;
+	};
+}
+
+interface Props {
+	posts: Post[];
+	labels: {
+		search: string;
+		all: string;
+		empty: string;
+	};
+	pageSize?: number;
+}
+
+const { posts, labels, pageSize = 6 } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const paginationLabels = locale === 'zh'
+	? { previous: '上一页', next: '下一页', page: '第 {page} / {total} 页' }
+	: { previous: 'Previous', next: 'Next', page: 'Page {page} of {total}' };
+const seriesLabels = locale === 'zh'
+	? { title: '合集', all: '全部文章' }
+	: { title: 'Series', all: 'All posts' };
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort((a, b) => a.localeCompare(b));
+const seriesList = [...new Set(posts.map((post) => post.data.series).filter((series): series is string => Boolean(series)))]
+	.sort((a, b) => a.localeCompare(b));
+---
+
+<div data-blog-filter data-page-size={pageSize}>
+	<div class="grid gap-7 lg:grid-cols-[200px_minmax(0,1fr)] lg:items-start">
+		{seriesList.length > 0 && (
+			<aside class="rounded-lg border border-white/10 bg-white/[0.03] p-4 lg:sticky lg:top-24">
+				<p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">{seriesLabels.title}</p>
+				<div class="mt-4 grid gap-2">
+					<button
+						type="button"
+						data-blog-series="all"
+						class="rounded-lg border border-white/30 bg-white px-3 py-2 text-left text-sm font-medium text-black transition"
+					>
+						{seriesLabels.all}
+					</button>
+					{seriesList.map((series) => (
+						<button
+							type="button"
+							data-blog-series={series}
+							class="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-left text-sm font-medium text-zinc-300 transition hover:border-white/30 hover:text-white"
+						>
+							{series}
+						</button>
+					))}
+				</div>
+			</aside>
+		)}
+
+		<div class="min-w-0">
+			<div class="mb-8 rounded-lg border border-white/10 bg-white/[0.03] p-4 md:p-5">
+			<label class="sr-only" for="blog-search">{labels.search}</label>
+			<input
+				id="blog-search"
+				data-blog-search
+				type="search"
+				placeholder={labels.search}
+				class="w-full rounded-lg border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-white/30"
+			/>
+			<div class="mt-4 flex flex-wrap gap-2">
+				<button
+					type="button"
+					data-blog-tag="all"
+					class="rounded-full border border-white/30 bg-white px-4 py-2 text-xs font-medium text-black transition"
+				>
+					{labels.all}
+				</button>
+				{tags.map((tag) => (
+					<button
+						type="button"
+						data-blog-tag={tag}
+						class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-zinc-300 transition hover:border-white/30 hover:text-white"
+					>
+						#{tag}
+					</button>
+				))}
+			</div>
+		</div>
+
+			<div data-blog-list>
+				{posts.map((post, index) => (
+					<div
+						data-blog-card
+						data-search={`${getEntryTitle(post)} ${getEntryDescription(post)} ${post.data.series ?? ''} ${post.data.tags.join(' ')}`.toLowerCase()}
+						data-tags={post.data.tags.join('\u001f').toLowerCase()}
+						data-series={(post.data.series ?? '').toLowerCase()}
+						hidden={index >= pageSize}
+					>
+						<BlogCard post={post} />
+					</div>
+				))}
+			</div>
+
+			<p data-blog-empty hidden class="rounded-lg border border-white/10 bg-white/[0.03] p-6 text-sm text-zinc-400">
+				{labels.empty}
+			</p>
+
+			<div data-blog-pagination hidden={posts.length <= pageSize} class="mt-8 flex items-center justify-between gap-4 border-t border-white/10 pt-6">
+				<button
+					type="button"
+					data-blog-prev
+					disabled
+					class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-zinc-300 transition hover:border-white/30 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+				>
+					{paginationLabels.previous}
+				</button>
+				<span data-blog-page-info data-template={paginationLabels.page} class="text-sm text-zinc-500">
+					{paginationLabels.page.replace('{page}', '1').replace('{total}', String(Math.max(1, Math.ceil(posts.length / pageSize))))}
+				</span>
+				<button
+					type="button"
+					data-blog-next
+					disabled={posts.length <= pageSize}
+					class="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-zinc-300 transition hover:border-white/30 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+				>
+					{paginationLabels.next}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('[data-blog-filter]').forEach((root) => {
+		const search = root.querySelector<HTMLInputElement>('[data-blog-search]');
+		const cards = [...root.querySelectorAll<HTMLElement>('[data-blog-card]')];
+		const tagButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-blog-tag]')];
+		const seriesButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-blog-series]')];
+		const empty = root.querySelector<HTMLElement>('[data-blog-empty]');
+		const pagination = root.querySelector<HTMLElement>('[data-blog-pagination]');
+		const previous = root.querySelector<HTMLButtonElement>('[data-blog-prev]');
+		const next = root.querySelector<HTMLButtonElement>('[data-blog-next]');
+		const pageInfo = root.querySelector<HTMLElement>('[data-blog-page-info]');
+		const pageSize = Math.max(1, Number(root.dataset.pageSize ?? 6));
+		let activeTag = 'all';
+		let activeSeries = 'all';
+		let currentPage = 1;
+
+		const setTagButtonState = () => {
+			tagButtons.forEach((button) => {
+				const isActive = button.dataset.blogTag === activeTag;
+				button.classList.toggle('border-white/30', isActive);
+				button.classList.toggle('bg-white', isActive);
+				button.classList.toggle('text-black', isActive);
+				button.classList.toggle('border-white/10', !isActive);
+				button.classList.toggle('bg-white/[0.04]', !isActive);
+				button.classList.toggle('text-zinc-300', !isActive);
+			});
+		};
+
+		const setSeriesButtonState = () => {
+			seriesButtons.forEach((button) => {
+				const isActive = button.dataset.blogSeries === activeSeries;
+				button.classList.toggle('border-white/30', isActive);
+				button.classList.toggle('bg-white', isActive);
+				button.classList.toggle('text-black', isActive);
+				button.classList.toggle('border-white/10', !isActive);
+				button.classList.toggle('bg-white/[0.04]', !isActive);
+				button.classList.toggle('text-zinc-300', !isActive);
+			});
+		};
+
+		const setButtonState = () => {
+			setTagButtonState();
+			setSeriesButtonState();
+		};
+
+		const filterCards = () => {
+			const query = search?.value.trim().toLowerCase() ?? '';
+			const matchingCards: HTMLElement[] = [];
+
+			cards.forEach((card) => {
+				const searchableText = card.dataset.search ?? '';
+				const tagList = (card.dataset.tags ?? '').split('\u001f').filter(Boolean);
+				const seriesName = card.dataset.series ?? '';
+				const matchesQuery = !query || searchableText.includes(query);
+				const matchesTag = activeTag === 'all' || tagList.includes(activeTag.toLowerCase());
+				const matchesSeries = activeSeries === 'all' || seriesName === activeSeries.toLowerCase();
+				if (matchesQuery && matchesTag && matchesSeries) matchingCards.push(card);
+			});
+
+			const totalPages = Math.max(1, Math.ceil(matchingCards.length / pageSize));
+			currentPage = Math.min(currentPage, totalPages);
+			const start = (currentPage - 1) * pageSize;
+			const visibleCards = new Set(matchingCards.slice(start, start + pageSize));
+
+			cards.forEach((card) => {
+				card.hidden = !visibleCards.has(card);
+			});
+
+			if (empty) empty.hidden = matchingCards.length > 0;
+			if (pagination) pagination.hidden = matchingCards.length <= pageSize;
+			if (previous) previous.disabled = currentPage <= 1;
+			if (next) next.disabled = currentPage >= totalPages;
+			if (pageInfo) {
+				const template = pageInfo.dataset.template ?? '{page} / {total}';
+				pageInfo.textContent = template.replace('{page}', String(currentPage)).replace('{total}', String(totalPages));
+			}
+			setButtonState();
+		};
+
+		search?.addEventListener('input', () => {
+			currentPage = 1;
+			filterCards();
+		});
+		tagButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				activeTag = button.dataset.blogTag ?? 'all';
+				currentPage = 1;
+				filterCards();
+			});
+		});
+		seriesButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				activeSeries = button.dataset.blogSeries ?? 'all';
+				currentPage = 1;
+				filterCards();
+			});
+		});
+		previous?.addEventListener('click', () => {
+			currentPage = Math.max(1, currentPage - 1);
+			filterCards();
+		});
+		next?.addEventListener('click', () => {
+			currentPage += 1;
+			filterCards();
+		});
+
+		filterCards();
+	});
+</script>

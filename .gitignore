@@ -1,0 +1,34 @@
+# build output
+/dist/
+/.atlas-data/
+
+# generated types
+/.astro/
+
+# dependencies
+/node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.astro-dev*.log
+.atlas-start*.log
+
+# environment variables
+/.env
+/.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# local personal content and overrides
+/src/config/
+/src/content/
+/src/contents/
+/public/
+/config/

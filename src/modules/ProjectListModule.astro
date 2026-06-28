@@ -3,17 +3,14 @@ import { getCollection } from 'astro:content';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getLocaleFromUrl } from '../config/site';
 
-interface Props {
-	columns?: 2 | 3;
-}
-
-const { columns = 2 } = Astro.props;
 const locale = getLocaleFromUrl(Astro.url);
 const projects = (await getCollection('projects'))
 	.filter((project) => project.data.lang === locale)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<div class:list={['grid gap-4', columns === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3']}>
-	{projects.map((project) => <ProjectCard project={project} />)}
-</div>
+<section class="mx-auto max-w-6xl px-5 pb-20 md:pb-28">
+	<div class="mx-auto grid max-w-5xl gap-5">
+		{projects.map((project) => <ProjectCard project={project} variant="wide" />)}
+	</div>
+</section>

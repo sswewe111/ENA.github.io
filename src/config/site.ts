@@ -144,7 +144,7 @@ const siteConfigs = {
 							kicker: "Small Builds",
 							title: "项目实现",
 							featuredOnly: true,
-							limit: 0,
+							limit: 3,
 							columns: 3,
 						},
 					},
@@ -194,7 +194,22 @@ const siteConfigs = {
 			projects: {
 				title: "项目经历",
 				// description: "课程作业、小项目、作品集和实验记录。",
-				modules: [],
+				modules: [
+					{
+						type: "pageHeader",
+						props: {
+							kicker: "Projects",
+							heading: "项目经历",
+							intro: "这里整理课程作业、学习项目、开源练习和个人实践记录。",
+						},
+					},
+					{
+						type: "projectList",
+						props: {
+							columns: 2,
+						},
+					},
+				],
 			},
 			blog: {
 				title: "博客 / 笔记",
@@ -383,7 +398,7 @@ const siteConfigs = {
 							kicker: "Small Builds",
 							title: "Project Implementation",
 							featuredOnly: true,
-							limit: 0,
+							limit: 3,
 							columns: 3,
 						},
 					},
@@ -433,7 +448,22 @@ const siteConfigs = {
 			projects: {
 				title: "Project Experience",
 				// description: "Coursework, small projects, portfolio pieces, and experiment records.",
-				modules: [],
+				modules: [
+					{
+						type: "pageHeader",
+						props: {
+							kicker: "Projects",
+							heading: "Project Experience",
+							intro: "Coursework, learning projects, open-source practice, and personal builds.",
+						},
+					},
+					{
+						type: "projectList",
+						props: {
+							columns: 2,
+						},
+					},
+				],
 			},
 			blog: {
 				title: "Blog / Notes",

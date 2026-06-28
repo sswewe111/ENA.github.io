@@ -11,9 +11,10 @@ interface Props {
 	cover?: string;
 	backlinks?: Array<{ id: string; title: string; description: string }>;
 	heroTransitionName?: string;
+	headings?: Array<{ depth: number; slug: string; text: string }>;
 }
 
-const { title, description, date, tags = [], cover, backlinks = [], heroTransitionName } = Astro.props;
+const { title, description, date, tags = [], cover, backlinks = [], heroTransitionName, headings = [] } = Astro.props;
 const locale = getLocaleFromUrl(Astro.url);
 const siteConfig = getSiteConfig(locale);
 const imageAssets = getBlogImageAssets();
@@ -23,52 +24,88 @@ const formattedDate = date?.toLocaleDateString('zh-CN', {
 	month: 'long',
 	day: 'numeric',
 });
+const tocHeadings = headings.filter((heading) => heading.depth >= 1 && heading.depth <= 4);
+const hasToc = tocHeadings.length > 0;
+const tocLabel = locale === 'zh' ? '目录' : 'Contents';
+const tocDepthClasses: Record<number, string> = {
+	1: 'pl-0 text-zinc-200',
+	2: 'pl-3 text-zinc-300',
+	3: 'pl-6 text-zinc-400',
+	4: 'pl-9 text-zinc-500',
+};
 ---
 
 <Layout title={title} description={description}>
-	<article class="mx-auto max-w-3xl px-5 py-16 md:py-24">
-		<a href={localizePath(locale, Astro.url.pathname.includes('/blog') ? '/blog' : '/projects')} class="text-sm text-zinc-500 transition hover:text-white">
-			{siteConfig.ui.backToList}
-		</a>
-		<header class="mt-10 border-b border-white/10 pb-10">
-			<div class="flex flex-wrap gap-3 text-sm text-zinc-500">
-				{formattedDate && <span>{formattedDate}</span>}
-			</div>
-			<h1 class="mt-4 text-3xl font-semibold tracking-normal text-white md:text-5xl" transition:name={heroTransitionName}>{title}</h1>
-			<p class="mt-5 text-lg leading-8 text-zinc-400">{description}</p>
-			{tags.length > 0 && (
-				<div class="mt-6 flex flex-wrap gap-2">
-					{tags.map((tag) => (
-						<span class="rounded-full border border-blue-400/25 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">#{tag}</span>
-					))}
-				</div>
-			)}
-			{coverSrc && (
-				<img
-					src={coverSrc}
-					alt=""
-					class="mt-8 aspect-[16/8] w-full rounded-lg border border-white/10 bg-zinc-900 object-cover"
-					loading="eager"
-					decoding="async"
-				/>
-			)}
-		</header>
-		<div class="prose-content mt-10">
-			<slot />
-		</div>
-		{backlinks.length > 0 && (
-			<section class="mt-12 border-t border-white/10 pt-8">
-				<h2 class="text-2xl font-semibold text-white">{locale === 'zh' ? '反向链接' : 'Backlinks'}</h2>
-				<div class="mt-4 grid gap-3">
-					{backlinks.map((link) => (
-						<a href={localizePath(locale, `/blog/${link.id}`)} class="rounded-lg border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/30">
-							<p class="font-medium text-white">{link.title}</p>
-							<p class="mt-2 text-sm leading-6 text-zinc-400">{link.description}</p>
-						</a>
-					))}
-				</div>
-			</section>
+	<article class:list={[
+		'mx-auto px-5 py-16 md:py-24',
+		hasToc ? 'grid max-w-6xl gap-10 lg:grid-cols-[220px_minmax(0,48rem)] xl:grid-cols-[260px_minmax(0,48rem)]' : 'max-w-3xl',
+	]}>
+		{hasToc && (
+			<aside class="hidden lg:block">
+				<nav class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto border-r border-white/10 pr-5" aria-label={tocLabel}>
+					<p class="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">{tocLabel}</p>
+					<ol class="mt-4 grid gap-2">
+						{tocHeadings.map((heading) => (
+							<li>
+								<a
+									href={`#${heading.slug}`}
+									class:list={[
+										'toc-link block break-words border-l border-transparent py-1.5 text-sm leading-5 transition hover:border-white/30 hover:text-white',
+										tocDepthClasses[heading.depth] ?? 'pl-9 text-zinc-500',
+									]}
+								>
+									{heading.text}
+								</a>
+							</li>
+						))}
+					</ol>
+				</nav>
+			</aside>
 		)}
+		<div class="min-w-0">
+			<a href={localizePath(locale, Astro.url.pathname.includes('/blog') ? '/blog' : '/projects')} class="text-sm text-zinc-500 transition hover:text-white">
+				{siteConfig.ui.backToList}
+			</a>
+			<header class="mt-10 border-b border-white/10 pb-10">
+				<div class="flex flex-wrap gap-3 text-sm text-zinc-500">
+					{formattedDate && <span>{formattedDate}</span>}
+				</div>
+				<h1 class="mt-4 text-3xl font-semibold tracking-normal text-white md:text-5xl" transition:name={heroTransitionName}>{title}</h1>
+				<p class="mt-5 text-lg leading-8 text-zinc-400">{description}</p>
+				{tags.length > 0 && (
+					<div class="mt-6 flex flex-wrap gap-2">
+						{tags.map((tag) => (
+							<span class="rounded-full border border-blue-400/25 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">#{tag}</span>
+						))}
+					</div>
+				)}
+				{coverSrc && (
+					<img
+						src={coverSrc}
+						alt=""
+						class="mt-8 aspect-[16/8] w-full rounded-lg border border-white/10 bg-zinc-900 object-cover"
+						loading="eager"
+						decoding="async"
+					/>
+				)}
+			</header>
+			<div class="prose-content mt-10">
+				<slot />
+			</div>
+			{backlinks.length > 0 && (
+				<section class="mt-12 border-t border-white/10 pt-8">
+					<h2 class="text-2xl font-semibold text-white">{locale === 'zh' ? '反向链接' : 'Backlinks'}</h2>
+					<div class="mt-4 grid gap-3">
+						{backlinks.map((link) => (
+							<a href={localizePath(locale, `/blog/${link.id}`)} class="rounded-lg border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/30">
+								<p class="font-medium text-white">{link.title}</p>
+								<p class="mt-2 text-sm leading-6 text-zinc-400">{link.description}</p>
+							</a>
+						))}
+					</div>
+				</section>
+			)}
+		</div>
 	</article>
 	<script define:vars={{ imageAssets }}>
 		const imageAssetMap = new Map(imageAssets.map((asset) => [asset.name.toLowerCase(), asset.url]));

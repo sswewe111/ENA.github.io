@@ -22,6 +22,15 @@ const backlinks = getBacklinks(post.id, allPosts);
 const { Content, headings } = await render(post);
 const cleanSlug = cleanContentSlug(post.id);
 const heroTransitionName = `blog-title-${cleanSlug.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+const seriesPosts = post.data.series
+	? allPosts
+			.filter((item) => !item.data.draft && item.data.series === post.data.series)
+			.sort((a, b) => getEntryTitle(a).localeCompare(getEntryTitle(b), 'zh-CN', { numeric: true }))
+			.map((item) => ({
+				id: item.id,
+				title: getEntryTitle(item),
+			}))
+	: [];
 ---
 
 <MarkdownLayout
@@ -33,6 +42,9 @@ const heroTransitionName = `blog-title-${cleanSlug.replace(/[^a-zA-Z0-9_-]/g, '-
 	backlinks={backlinks}
 	heroTransitionName={heroTransitionName}
 	headings={headings}
+	currentId={post.id}
+	series={post.data.series}
+	seriesPosts={seriesPosts}
 >
 	<Content />
 </MarkdownLayout>

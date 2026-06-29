@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { getLocaleFromUrl, getSiteConfig, localizePath, withBase } from '../config/site';
+import { cleanContentSlug } from '../config/i18n';
 import { getBlogImageAssets } from '../utils/blog-assets';
 
 interface Props {
@@ -12,9 +13,24 @@ interface Props {
 	backlinks?: Array<{ id: string; title: string; description: string }>;
 	heroTransitionName?: string;
 	headings?: Array<{ depth: number; slug: string; text: string }>;
+	currentId?: string;
+	series?: string;
+	seriesPosts?: Array<{ id: string; title: string }>;
 }
 
-const { title, description, date, tags = [], cover, backlinks = [], heroTransitionName, headings = [] } = Astro.props;
+const {
+	title,
+	description,
+	date,
+	tags = [],
+	cover,
+	backlinks = [],
+	heroTransitionName,
+	headings = [],
+	currentId,
+	series,
+	seriesPosts = [],
+} = Astro.props;
 const locale = getLocaleFromUrl(Astro.url);
 const siteConfig = getSiteConfig(locale);
 const imageAssets = getBlogImageAssets();
@@ -26,6 +42,8 @@ const formattedDate = date?.toLocaleDateString('zh-CN', {
 });
 const tocHeadings = headings.filter((heading) => heading.depth >= 1 && heading.depth <= 4);
 const hasToc = tocHeadings.length > 0;
+const hasSeriesNav = Boolean(series && seriesPosts.length > 0);
+const seriesLabel = locale === 'zh' ? '合集文章' : 'Series';
 const tocLabel = locale === 'zh' ? '目录' : 'Contents';
 const tocDepthClasses: Record<number, string> = {
 	1: 'pl-0 text-zinc-200',
@@ -33,12 +51,19 @@ const tocDepthClasses: Record<number, string> = {
 	3: 'pl-6 text-zinc-400',
 	4: 'pl-9 text-zinc-500',
 };
+const articleGridClass = hasToc && hasSeriesNav
+	? 'grid max-w-7xl gap-10 lg:grid-cols-[220px_minmax(0,48rem)] xl:grid-cols-[240px_minmax(0,48rem)_260px]'
+	: hasToc
+		? 'grid max-w-6xl gap-10 lg:grid-cols-[220px_minmax(0,48rem)] xl:grid-cols-[260px_minmax(0,48rem)]'
+		: hasSeriesNav
+			? 'grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,48rem)_260px]'
+			: 'max-w-3xl';
 ---
 
 <Layout title={title} description={description}>
 	<article class:list={[
 		'mx-auto px-5 py-16 md:py-24',
-		hasToc ? 'grid max-w-6xl gap-10 lg:grid-cols-[220px_minmax(0,48rem)] xl:grid-cols-[260px_minmax(0,48rem)]' : 'max-w-3xl',
+		articleGridClass,
 	]}>
 		{hasToc && (
 			<aside class="hidden lg:block">
@@ -106,6 +131,38 @@ const tocDepthClasses: Record<number, string> = {
 				</section>
 			)}
 		</div>
+		{hasSeriesNav && (
+			<aside class:list={[
+				'hidden lg:block',
+				hasToc ? 'lg:hidden xl:block' : '',
+			]}>
+				<nav class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto border-l border-white/10 pl-5" aria-label={seriesLabel}>
+					<p class="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">{seriesLabel}</p>
+					<p class="mt-2 break-words text-sm font-medium text-zinc-200">{series}</p>
+					<ol class="mt-4 grid gap-1.5">
+						{seriesPosts.map((item) => {
+							const isCurrent = item.id === currentId;
+							return (
+								<li>
+									<a
+										href={localizePath(locale, `/blog/${cleanContentSlug(item.id)}`)}
+										aria-current={isCurrent ? 'page' : undefined}
+										class:list={[
+											'block break-words rounded-md border px-3 py-2 text-sm leading-5 transition',
+											isCurrent
+												? 'border-emerald-400/35 bg-emerald-400/10 text-emerald-100'
+												: 'border-transparent text-zinc-400 hover:border-white/15 hover:bg-white/[0.03] hover:text-white',
+										]}
+									>
+										{item.title}
+									</a>
+								</li>
+							);
+						})}
+					</ol>
+				</nav>
+			</aside>
+		)}
 	</article>
 	<script define:vars={{ imageAssets }}>
 		const imageAssetMap = new Map(imageAssets.map((asset) => [asset.name.toLowerCase(), asset.url]));

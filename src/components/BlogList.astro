@@ -139,7 +139,11 @@ const seriesList = [...new Set(posts.map((post) => post.data.series).filter((ser
 </div>
 
 <script>
-	document.querySelectorAll('[data-blog-filter]').forEach((root) => {
+	function mountBlogFilters() {
+		document.querySelectorAll<HTMLElement>('[data-blog-filter]').forEach((root) => {
+			if (root.dataset.blogFilterReady) return;
+			root.dataset.blogFilterReady = 'true';
+
 		const search = root.querySelector<HTMLInputElement>('[data-blog-search]');
 		const cards = [...root.querySelectorAll<HTMLElement>('[data-blog-card]')];
 		const tagButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-blog-tag]')];
@@ -245,5 +249,9 @@ const seriesList = [...new Set(posts.map((post) => post.data.series).filter((ser
 		});
 
 		filterCards();
-	});
+		});
+	}
+
+	mountBlogFilters();
+	document.addEventListener('astro:page-load', mountBlogFilters);
 </script>
